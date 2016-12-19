@@ -1,5 +1,112 @@
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script type="text/javascript" src="assets/js/showUploadImg.js"></script>
+
+
+<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+<script type="text/javascript" src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="http://fezvrasta.github.io/bootstrap-material-design/dist/js/material.min.js"></script>
+<script type="text/javascript" src="http://fezvrasta.github.io/bootstrap-material-design/dist/js/ripples.min.js"></script>
+<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.2/angular.min.js"></script>
+<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/angular-filter/0.5.8/angular-filter.js"></script>
+<script type="text/javascript" src="https://cdn.firebase.com/js/client/2.2.4/firebase.js"></script>
+<script type="text/javascript" src="http://cdn.firebase.com/libs/angularfire/1.2.0/angularfire.min.js"></script>
+<script type="text/javascript" src="assets/js/uploadimg.js"></script>
+<style>
+p{
+  font-weight: bold;
+  font-size: 2.5em;
+  padding-top: 40px;
+}
+
+img{
+  cursor:pointer;
+  width: 100%; 
+  height: 200px;
+  border-style: solid; 
+  border-color: #000000 #000000; 
+  border-width: medium;
+}
+
+input[type=file] {
+    margin: 0 auto;
+}
+</style>
 <a href="/register">註冊</a> 
-<a href="/login">登入</a>
+<a href="/login">登入</a><br/>
+
+<h3>第一種上傳(firebase)</h3> 
+<div ng-app='img2fire'>
+  <div ng-controller='base64Ctrl'>
+    <div class="container-fluid">
+      <p class="text-info" align="center">Upload Images to Firebase</p>
+      <hr />
+
+      <form ng-submit="uploadFile()">
+        <input type="file" name="file" class="inputimg" id="nameImg" accept="image/*">
+        <br />
+        <span class="input-group-btn">
+                <button  type="submit" class="btn btn-block">Upload Image 
+                  <i class="material-icons">send</i>
+                </button>
+          </span>
+      </form>
+      <hr />
+      <div ng-repeat="img in imgs | toArray | orderBy: '-date'" class="col-xs-12 col-sm-6 col-md-3">
+        <img ng-src="{{img.base64}}">
+        <a class="btn btn-danger btn-block" ng-click="deleteimg(img.$id)">Delete</a>
+      </div>
+    </div>
+  </div>
+
+
+
+
+<h3>第二種上傳</h3>   
+
+<input id="img_input" name="img_input" type="file" accept="image/*"/>
+<input type="hidden" value=javascript:document.getElementById('img_input').value name="fpath"/>
+<input type="button" onclick="upload();"  value="上傳"/>
+
+<div class="preview_box"></div>
+<br/>
+
+<script>
+$("#img_input").on("change", function(event) {
+
+  var file = event.target.files[0];
+  var reader = new FileReader();
+  reader.readAsDataURL(file);
+  reader.onload = function(arg) {
+
+    var img = '<img class="preview" width="400px" src="' + arg.target.result + '" alt="preview"/>';
+    $(".preview_box").empty().append(img);
+  }
+});
+
+
+function upload(){
+	var fs = require('fs');
+	var path = require('path');
+
+    var file = document.getElementById('img_input').value;
+
+    var sourceFile = path.join(file);
+    var destPath = path.join(__dirname, "dest", "test.jpg");
+    var readStream = fs.createReadStream(sourceFile);
+    var writeStream = fs.createWriteStream(destPath);
+    readStream.pipe(writeStream);
+    console.log("移动完成");
+};
+
+</script>
+
+<div id="dPallete"></div>
+<div id="dLine"></div>
+<div id="dCanvas">
+<canvas id="cSketchPad" width="300" height="300" style="border: 2px solid gray" />
+</div>
+<input type="button" id="bGenImage" value="Generate Image" />
+<div id="dOutput"></div>
 <% if(message){%>
 	<script>
 		alert("<%=message%>");
