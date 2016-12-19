@@ -14,15 +14,15 @@ var config = {
 firebase.initializeApp(config);
 
 var database = firebase.database();
-//console.log(database);
 
+//讀users資料表
 var users= new Array();
 firebase.database().ref('/user').once('value').then(function(snapshot) {
   users=snapshot.val();
   console.log(users);
 });
 
-
+//註冊帳號
 function register(num, uAccount, uPwd, uName) {
     var point=0;
     var userRef = database.ref('user/'+num);//num?
@@ -37,7 +37,7 @@ function register(num, uAccount, uPwd, uName) {
     });  
 }
 
-
+//檢查登入
 function loginCheck(uAccount, uPwd){
   firebase.database().ref('/user').once('value').then(function(snapshot) {
     users=snapshot.val();
@@ -57,9 +57,7 @@ function loginCheck(uAccount, uPwd){
 /*****************--------*****************/
 
 exports.index = function(req, res) {
-  res.render('pages/index',{
-    message: ""
-  });
+  res.render('pages/index');
 };
 
 exports.register = function(req, res){
@@ -81,14 +79,14 @@ exports.rSuccess = function(req, res){
   });
 };
 
-
+//還有問題
 exports.login = function(req, res){
   var message="你已登入囉！";
   if (req.session.uNum!=null) {
-    res.render('pages/index',{
+    res.redirect('/',{
       uName: users[req.session.uNum].uName,
       message: message
-    });
+    },0);
   }else{
     res.render('pages/login');
   }

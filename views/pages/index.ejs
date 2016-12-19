@@ -20,8 +20,7 @@ p{
 
 img{
   cursor:pointer;
-  width: 100%; 
-  height: 200px;
+  width: 100%;
   border-style: solid; 
   border-color: #000000 #000000; 
   border-width: medium;
@@ -34,7 +33,7 @@ input[type=file] {
 <a href="/register">註冊</a> 
 <a href="/login">登入</a><br/>
 
-<h3>第一種上傳(firebase)</h3> 
+<h3>上傳圖片</h3> 
 <div ng-app='img2fire'>
   <div ng-controller='base64Ctrl'>
     <div class="container-fluid">
@@ -59,44 +58,6 @@ input[type=file] {
   </div>
 
 
-
-
-<h3>第二種上傳</h3>   
-
-<input id="img_input" name="img_input" type="file" accept="image/*"/>
-<input type="hidden" value=javascript:document.getElementById('img_input').value name="fpath"/>
-<input type="button" onclick="upload();"  value="上傳"/>
-
-<div class="preview_box"></div>
-<br/>
-
-<script>
-$("#img_input").on("change", function(event) {
-
-  var file = event.target.files[0];
-  var reader = new FileReader();
-  reader.readAsDataURL(file);
-  reader.onload = function(arg) {
-
-    var img = '<img class="preview" width="400px" src="' + arg.target.result + '" alt="preview"/>';
-    $(".preview_box").empty().append(img);
-  }
-});
-
-
-function upload(){
-	var fs = require('fs');
-	var path = require('path');
-
-    var file = document.getElementById('img_input').value;
-
-    var sourceFile = path.join(file);
-    var destPath = path.join(__dirname, "dest", "test.jpg");
-    var readStream = fs.createReadStream(sourceFile);
-    var writeStream = fs.createWriteStream(destPath);
-    readStream.pipe(writeStream);
-    console.log("移动完成");
-};
 
 </script>
 
