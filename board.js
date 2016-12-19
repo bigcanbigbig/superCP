@@ -61,7 +61,6 @@ app.get('/register', page.register);
 app.post('/rSuccess',page.rSuccess);
 app.get('/login', page.login);
 app.post('/lResult', page.lResult);
-app.post('/upload', page.upload);
 app.post("*", function(req, res){
 	res.end(JSON.stringify(req.files) + "\n");
 });

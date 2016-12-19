@@ -116,26 +116,7 @@ exports.lResult = function(req, res){
   }
 };
 
-var express = require('express');
-var router = express.Router();
-var multer = require('multer');
-var upload = multer({dest:'public/uploads/'});
-var fs = require('fs');
-var path = require('path');
 
-require('firebase-image-uploader');
-
-exports.upload = function (req, res) {
-
-    console.log(document.querySelector('[type=file]').value);
-
-    /*var ref = firebase.database().ref('/images');
-    var firebaseImageUploader = new FirebaseImageUploader(ref);
-
-    document.querySelector('[type=file]').addEventListener('change', function () {
-     firebaseImageUploader.upload(this.files); 
-    });*/
-};
 
 
 
